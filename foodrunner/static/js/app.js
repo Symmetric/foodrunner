@@ -3,13 +3,14 @@
  */
 var geocoder;
 var map;
+var marker;
 
 function initialize() {
     "use strict";
-    var markers = [];
     var mapOptions = {
         center: new google.maps.LatLng(-34.397, 150.644),
-        zoom: 8
+        zoom: 8,
+        mapTypeControl: false
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
@@ -38,6 +39,20 @@ function locationSearch() {
 //                var ne = results[0].geometry.viewport.getNorthEast();
 //                var sw = results[0].geometry.viewport.getSouthWest();
                 map.fitBounds(results[0].geometry.viewport);
+
+                // Clear the old marker, if present
+                if (typeof marker != 'undefined') {
+                    console.log('Removing old marker')
+                    marker.setMap(null);
+                }
+
+                // Create a marker for the search location.
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+                console.log('Added new marker')
+                $("#pickup-menu").show();
             }
         });
     }
