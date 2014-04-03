@@ -11,13 +11,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'cnc73@9e@l36@+$egjn%yxdwrx=)f=-1n=je0dm83ns1&@lo$+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!`
 DEBUG = False
 
 TEMPLATE_DEBUG = True
@@ -34,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
