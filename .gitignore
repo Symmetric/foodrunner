@@ -1,3 +1,4 @@
 /foodrunner/local_settings.py
 /venv
 /.idea
+/foodrunner/staticfiles/*
