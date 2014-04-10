@@ -36,6 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'foodrunner.core',
+    'bootstrapform',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
