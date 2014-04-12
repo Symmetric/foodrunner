@@ -19,6 +19,7 @@ class Donation(models.Model):
     available_time = models.CharField(max_length=1000)
     expire_time = models.CharField(max_length=1000)
 
+
 # class Provider(models.Model):
 #
 #     primary_name = models.CharField(max_length=300)
