@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django.forms.widgets import HiddenInput
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from foodrunner.core.models import Donation
@@ -10,6 +11,9 @@ from rest_framework import permissions
 class DonationForm(ModelForm):
     class Meta:
         model = Donation
+        widgets = {
+            'location': HiddenInput
+        }
 
 
 class DonationList(generics.ListCreateAPIView):

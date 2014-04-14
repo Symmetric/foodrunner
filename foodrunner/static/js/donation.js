@@ -31,8 +31,6 @@ function locationSearch() {
             if (status === google.maps.GeocoderStatus.OK) {
                 // Got results so recenter on the first one, and
                 // set the zoom level appropriately for this location.
-//                var ne = results[0].geometry.viewport.getNorthEast();
-//                var sw = results[0].geometry.viewport.getSouthWest();
                 map.fitBounds(results[0].geometry.viewport);
 
                 // Clear the old marker, if present
@@ -47,6 +45,7 @@ function locationSearch() {
                     position: results[0].geometry.location
                 });
                 console.log('Added new marker at ' + results[0].geometry.location)
+                $("#id_location").val(results[0].geometry.location.toString())
                 $("#donation-menu").show();
             }
         });
