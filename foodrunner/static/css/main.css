@@ -1,21 +1,23 @@
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
 
+.base-body {
+    margin-top:50px;
+}
 #map-canvas {
     margin-top:50px;
     height: 100%
 }
 
-#pickup-menu {
+.controls {
     /*width: auto;*/
     /*height: auto;*/
     /*height: 300px;*/
     top: 75px;
     right: 25px;
     position: absolute;
-    display: none;
 }
 
-#pickup-submit {
-    text-align: center;
+#donation-menu {
+    display: none;
 }

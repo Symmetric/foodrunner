@@ -8,3 +8,11 @@ def index(request):
         {},
         context_instance=RequestContext(request),
     )
+
+
+def donate(request):
+    return render_to_response(
+        'donate.html',
+        {},
+        context_instance=RequestContext(request),
+    )

@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', views.index, name='index'),
+    url(r'^donate', views.donate, name='donate'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

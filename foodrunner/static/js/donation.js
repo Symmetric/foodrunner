@@ -8,17 +8,12 @@ var marker;
 function initialize() {
     "use strict";
     var mapOptions = {
-        center: new google.maps.LatLng(-34.397, 150.644),
-        zoom: 8,
+        center: new google.maps.LatLng(37.7749295, -122.41941550000001),
+        zoom: 13,
         mapTypeControl: false
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
-
-    var defaultBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(-33.8902, 151.1759),
-        new google.maps.LatLng(-33.8474, 151.2631));
-    map.fitBounds(defaultBounds);
 
     geocoder = new google.maps.Geocoder();
 }
@@ -51,8 +46,8 @@ function locationSearch() {
                     map: map,
                     position: results[0].geometry.location
                 });
-                console.log('Added new marker')
-                $("#pickup-menu").show();
+                console.log('Added new marker at ' + results[0].geometry.location)
+                $("#donation-menu").show();
             }
         });
     }
