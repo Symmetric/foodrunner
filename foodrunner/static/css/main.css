@@ -1,12 +1,19 @@
 html { height: 100% }
-body { height: 100%; margin: 0; padding: 0 }
+body { height: 100%; margin: 0; padding: 0;}
 
-.base-body {
-    margin-top:50px;
+#map-search-form {
+    /*margin-bottom:50px;*/
 }
+
 #map-canvas {
+    display: block;
+    position: absolute;
     margin-top:50px;
-    height: 100%
+    bottom:0;
+    top:0px;
+    left:0;
+    right:0;
+    height: auto;
 }
 
 .controls {
