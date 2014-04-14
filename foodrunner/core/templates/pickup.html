@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block nav-contents %}
+          <form id="map-search-form" class="navbar-form navbar-left" role="search" action="#">
+            <div class="form-group">
+              <input id="map-search" type="text" class="form-control" placeholder="Enter your location">
+            </div>
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+          </form>
+{% endblock nav-contents %}
+
+{% block body %}
+    <div id="map-canvas">
+    </div>
+    <div id="pickup-menu" class="panel panel-default controls">
+      <div class="panel-heading">
+        <h1 class="panel-title">Check for pickups</h1>
+      </div>
+      <div class="panel-body">
+        <button id="pickup-button" type="submit" class="btn btn-default">Update</button>
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-2.1.0.js"><\/script>')</script>
+
+    <script src="{{ STATIC_URL }}js/vendor/bootstrap.min.js"></script>
+
+    <script src="http://backbonejs.org/backbone.js"></script>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTT-Vga_OjJeSEOEVGk1RRhFrd2Ydp_5U&sensor=true&libraries=places">
+    </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pickup.js"></script>
+{% endblock body %}
