@@ -3,8 +3,7 @@
  */
 var geocoder;
 var map;
-var start_marker;
-var end_marker;
+var marker;
 var pickups;
 
 function initialize() {
@@ -19,7 +18,7 @@ function initialize() {
 
     $.ajax({
         url: '/api/donations',
-        success: function(data, textStatus, xhr) {
+        success: function(data) {
             console.log('Got pickup-list: ');
             console.dir(data);
             pickups = data;
@@ -64,14 +63,34 @@ function drawPickups() {
         var pickup = pickups[i];
         console.log('Drawing pickup');
         console.dir(pickup);
-        var location = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
+        var position = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
 
-        start_marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             map: map,
-            position: location
+            position: position
         });
-        console.log('Added new pickup location at ' + location);
+        marker.pickup = pickup;
+        console.log('Added new pickup location at ' + position);
+        attachPickupInfo(marker, pickup)
     }
+}
+
+function attachPickupInfo(marker, pickup) {
+    "use strict";
+    console.log('Click. Displaying info on pickup.');
+    console.dir(pickup);
+
+    var content = 'Description: ' + pickup.description + '<br/>' +
+        'Weight: ' + pickup.weight + '<br/>' +
+        'Available: ' + pickup.available_time + '<br/>' +
+        'Expires: ' + pickup.expire_time + '<br/>';
+
+    var marker_info = new google.maps.InfoWindow({
+        content: content
+    });
+    google.maps.event.addListener(marker, 'click', function() {
+        marker_info.open(map, marker);
+    });
 }
 
 $("#pickup-button").click(drawPickups);
