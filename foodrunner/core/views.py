@@ -51,3 +51,11 @@ def donate(request):
         {'form': form},
         context_instance=RequestContext(request),
     )
+
+
+def pickup(request):
+    return render_to_response(
+        'pickup.html',
+        {},
+        context_instance=RequestContext(request),
+    )
