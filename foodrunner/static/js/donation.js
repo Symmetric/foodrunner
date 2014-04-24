@@ -44,8 +44,11 @@ function locationSearch() {
                     map: map,
                     position: results[0].geometry.location
                 });
-                console.log('Added new marker at ' + results[0].geometry.location)
-                $("#id_location").val(results[0].geometry.location.toString())
+                console.log('Added new marker at ' + results[0].geometry.location);
+                var lat = results[0].geometry.location.lat().toString()
+                var lng = results[0].geometry.location.lng().toString()
+                $("#id_location_lat").val(lat);
+                $("#id_location_lng").val(lng);
                 $("#donation-menu").show();
             }
         });

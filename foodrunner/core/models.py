@@ -1,23 +1,17 @@
 from django.db import models
 
-# Create your models here.
 
 class Donation(models.Model):
-
-    location = models.CharField(max_length=1000)
-
-    # VOLUME_CHOICES = (
-    #     ('SMALL', 1),
-    #     ('MEDIUM', 2),
-    #     ('LARGE', 3),
-    #     ('EXTRA LARGE', 4)
-    # )
+    """A donation that a user has anounced is available for pickup."""
+    location_lat = models.FloatField()
+    location_lng = models.FloatField()
     weight = models.IntegerField()
     description = models.CharField(max_length=1000)
     contact_number = models.CharField(max_length=1000)
-    # provider = models.ForeignKey('Provider')
     available_time = models.CharField(max_length=1000)
     expire_time = models.CharField(max_length=1000)
+
+    # provider = models.ForeignKey('Provider')
 
 
 # class Provider(models.Model):

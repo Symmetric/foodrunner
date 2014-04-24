@@ -12,7 +12,8 @@ class DonationForm(ModelForm):
     class Meta:
         model = Donation
         widgets = {
-            'location': HiddenInput
+            'location_lat': HiddenInput,
+            'location_lng': HiddenInput
         }
 
 
