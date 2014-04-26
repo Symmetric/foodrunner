@@ -1,6 +1,11 @@
-from django.conf.urls import url, patterns
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls import url, patterns, include
+from rest_framework import routers
 from foodrunner.core import views
+from foodrunner.core.views import RecipientViewset, DonationViewset
+
+router = routers.DefaultRouter()
+router.register('donations', DonationViewset)
+router.register('recipients', RecipientViewset)
 
 urlpatterns = patterns(
     'foodrunner.core.views',
@@ -9,8 +14,5 @@ urlpatterns = patterns(
     url(r'^pickup$', views.pickup, name='pickup'),
 
     # REST API
-    url(r'^api/donations/$', views.DonationList.as_view()),
-    url(r'^api/donations/(?P<pk>[0-9]+)/$', views.DonationDetail.as_view()),
+    url(r'^api/', include(router.urls))
 )
-
-urlpatterns = format_suffix_patterns(urlpatterns)

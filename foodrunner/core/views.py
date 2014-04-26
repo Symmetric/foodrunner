@@ -2,9 +2,10 @@ from django.forms import ModelForm
 from django.forms.widgets import HiddenInput
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from foodrunner.core.models import Donation
+from rest_framework.viewsets import ModelViewSet
+from foodrunner.core.models import Donation, Recipient
 from rest_framework import generics
-from foodrunner.core.serializers import DonationSerializer
+from foodrunner.core.serializers import DonationSerializer, RecipientSerializer
 from rest_framework import permissions
 
 
@@ -17,20 +18,20 @@ class DonationForm(ModelForm):
         }
 
 
-class DonationList(generics.ListCreateAPIView):
+class DonationViewset(ModelViewSet):
     """
-    List all donations or create a new donation
+    REST API view for Donation model.
     """
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
 
-class DonationDetail(generics.RetrieveUpdateDestroyAPIView):
+class RecipientViewset(ModelViewSet):
     """
-    Retrieve, update or delete a donation
+    REST API view for Recipient model.
     """
-    queryset = Donation.objects.all()
-    serializer_class = DonationSerializer
+    queryset = Recipient.objects.all()
+    serializer_class = RecipientSerializer
 
 
 def index(request):

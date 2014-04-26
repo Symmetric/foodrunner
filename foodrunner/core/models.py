@@ -14,6 +14,13 @@ class Donation(models.Model):
     # provider = models.ForeignKey('Provider')
 
 
+class Recipient(models.Model):
+    """A registered recipient for donations."""
+    location_lat = models.FloatField()
+    location_lng = models.FloatField()
+    description = models.CharField(max_length=1000)
+
+
 # class Provider(models.Model):
 #
 #     primary_name = models.CharField(max_length=300)
