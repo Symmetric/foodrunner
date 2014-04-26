@@ -3,8 +3,8 @@
  */
 var geocoder;
 var map;
-var marker;
 var pickups;
+var destination;
 
 function initialize() {
     "use strict";
@@ -22,13 +22,28 @@ function initialize() {
             console.log('Got pickup-list: ');
             console.dir(data);
             pickups = data;
-            drawPickups();
+            maybeDrawPickups();
         },
         error: function(xhr, textStatus) {
             console.log('Failed to load pickup list. Error:' + textStatus);
         }
     });
 
+    $.ajax({
+        url: '/api/recipients',
+        success: function(data) {
+            console.log('Got recipient list: ');
+            console.dir(data);
+            if (data.length > 0) {
+                destination = data[0];
+                maybeDrawPickups();
+            }
+
+        },
+        error: function(xhr, textStatus) {
+            console.log('Failed to load destination. Error:' + textStatus);
+        }
+    });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -44,8 +59,6 @@ function locationSearch() {
             if (status === google.maps.GeocoderStatus.OK) {
                 // Got results so recenter on the first one, and
                 // set the zoom level appropriately for this location.
-//                var ne = results[0].geometry.viewport.getNorthEast();
-//                var sw = results[0].geometry.viewport.getSouthWest();
                 map.fitBounds(results[0].geometry.viewport);
 
             }
@@ -57,21 +70,37 @@ function locationSearch() {
 
 $("#map-search-form").submit(locationSearch);
 
-function drawPickups() {
+// Draw the pickups, if we have got pickups and a destination.
+function maybeDrawPickups() {
     "use strict";
-    for (var i=0; i < pickups.length; i++) {
-        var pickup = pickups[i];
-        console.log('Drawing pickup');
-        console.dir(pickup);
-        var position = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
+    var pickupsIsDefined = typeof pickups != 'undefined';
+    var destinationIsDefined = typeof destination != 'undefined';
+    if (pickupsIsDefined && destinationIsDefined) {
+        for (var i=0; i < pickups.length; i++) {
+            var pickup = pickups[i];
+            console.log('Drawing pickup');
+            console.dir(pickup);
 
-        marker = new google.maps.Marker({
+            var position = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: position
+            });
+
+            console.log('Added new pickup location at ' + position);
+            attachPickupInfo(marker, pickup)
+        }
+        new google.maps.Marker({
             map: map,
-            position: position
+            position: new google.maps.LatLng(destination.location_lat, destination.location_lng),
+            icon: 'http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png',
+            text: 'Z'
         });
-        marker.pickup = pickup;
-        console.log('Added new pickup location at ' + position);
-        attachPickupInfo(marker, pickup)
+        console.log('Added destination location');
+    }
+    else {
+        console.log('Pickups is defined? ' + pickupsIsDefined);
+        console.log('Destination is defined? ' + destinationIsDefined);
     }
 }
 
@@ -93,4 +122,4 @@ function attachPickupInfo(marker, pickup) {
     });
 }
 
-$("#pickup-button").click(drawPickups);
+$("#pickup-button").click(maybeDrawPickups);
