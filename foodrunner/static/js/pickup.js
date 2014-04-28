@@ -77,18 +77,7 @@ function maybeDrawPickups() {
     var destinationIsDefined = typeof destination != 'undefined';
     if (pickupsIsDefined && destinationIsDefined) {
         for (var i=0; i < pickups.length; i++) {
-            var pickup = pickups[i];
-            console.log('Drawing pickup');
-            console.dir(pickup);
-
-            var position = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: position
-            });
-
-            console.log('Added new pickup location at ' + position);
-            attachPickupInfo(marker, pickup)
+            createPickupMarker(pickups[i]);
         }
         new google.maps.Marker({
             map: map,
@@ -104,22 +93,46 @@ function maybeDrawPickups() {
     }
 }
 
-function attachPickupInfo(marker, pickup) {
+function createPickupMarker(pickup) {
     "use strict";
-    console.log('Click. Displaying info on pickup.');
-    console.dir(pickup);
+    var position = new google.maps.LatLng(pickup.location_lat, pickup.location_lng);
+    var marker = new google.maps.Marker({
+        map: map,
+        position: position
+    });
 
+    console.log('Added new pickup location at ' + position);
+
+    // Create the text contained in the InfoWindow, including a button to claim the pickup.
     var content = 'Description: ' + pickup.description + '<br/>' +
         'Weight: ' + pickup.weight + '<br/>' +
         'Available: ' + pickup.available_time + '<br/>' +
-        'Expires: ' + pickup.expire_time + '<br/>';
+        'Expires: ' + pickup.expire_time + '<br/>' +
+        '<button id="pickup-' + pickup.id +
+        '" class="btn btn-primary">Pickup</button>';
 
     var marker_info = new google.maps.InfoWindow({
         content: content
     });
+
+    // When the marker is clicked, display the InfoWindow.
     google.maps.event.addListener(marker, 'click', function() {
+        console.log('Displaying info on pickup.');
+        console.dir(pickup);
+        var pickupId = 'pickup-' + pickup.id;
         marker_info.open(map, marker);
+
+        // When the 'Pickup' button is clicked, send the claim request to the server.
+        // Without the surrounding 'domready' event listener, the browser may
+        // execute the JQuery before the InfoWindow is added to the DOM.
+        google.maps.event.addListener(marker_info, 'domready', function() {
+            $('#' + pickupId).click(function() {
+                console.log('Pickup claimed. ID = ' + pickup.id);
+            });
+        });
     });
+
+
 }
 
 $("#pickup-button").click(maybeDrawPickups);
